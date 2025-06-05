@@ -13,16 +13,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class MagewellSwitcher:
-    """Class to interact with Magewell video switcher API."""
-    
-    def __init__(self, ip_address: str, username: str = "Admin", password: str = "Admin"):
-        """Initialize the switcher connection.
-        
-        Args:
-            ip_address: IP address of the Magewell device
-            username: Login username (default: Admin)
-            password: Login password (default: Admin)
-        """
+       
+    def __init__(self, ip_address: str, username: str = "admin", password: str = "password"):
+
         self.ip_address = ip_address
         self.username = username
         self.password = password
@@ -31,15 +24,9 @@ class MagewellSwitcher:
         self.authenticated = False
     
     def _hash_password(self) -> str:
-        """Create MD5 hash of the password."""
         return hashlib.md5(self.password.encode()).hexdigest()
     
     def login(self) -> bool:
-        """Authenticate with the Magewell device.
-        
-        Returns:
-            True if login was successful, False otherwise
-        """
         try:
             params = {
                 "method": "login",
@@ -63,17 +50,11 @@ class MagewellSwitcher:
             return False
     
     def _check_auth(self) -> bool:
-        """Ensure authentication before making API calls."""
         if not self.authenticated:
             return self.login()
         return True
     
     def get_current_channel(self) -> Optional[Dict[str, Any]]:
-        """Get information about the currently selected channel.
-        
-        Returns:
-            Dict containing channel information or None if request fails
-        """
         if not self._check_auth():
             return None
             
@@ -93,11 +74,6 @@ class MagewellSwitcher:
             return None
     
     def get_ndi_sources(self) -> Optional[List[Dict[str, Any]]]:
-        """Get list of available NDI sources.
-        
-        Returns:
-            List of available NDI sources or None if request fails
-        """
         if not self._check_auth():
             return None
             
@@ -117,14 +93,6 @@ class MagewellSwitcher:
             return None
     
     def set_channel(self, source_name: str) -> bool:
-        """Set the current channel to the specified NDI source.
-        
-        Args:
-            source_name: Name of the NDI source to select
-            
-        Returns:
-            True if successful, False otherwise
-        """
         if not self._check_auth():
             return False
             
@@ -168,7 +136,6 @@ def display_ndi_sources(sources: List[Dict[str, Any]]) -> None:
 
 
 def main():
-    """Main function to run the script."""
     parser = argparse.ArgumentParser(description="Control a Magewell video switcher")
     
     parser.add_argument("--ip", required=True, help="IP address of the Magewell device")
@@ -235,7 +202,6 @@ def main():
 
 
 def run_interactive_mode(switcher: MagewellSwitcher) -> None:
-    """Run the interactive mode for controlling the switcher."""
     print("\nMagewell Switcher Interactive Mode")
     print(f"Connected to: {switcher.ip_address}")
     
