@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-"""
-Magewell Video Switcher Control Script
-
-This script provides a command-line interface for controlling Magewell video switchers,
-allowing you to view and change video sources via the Magewell API.
-"""
-
 import requests
 import json
 import hashlib
@@ -14,7 +6,6 @@ import argparse
 from typing import Dict, List, Any, Optional
 import logging
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
